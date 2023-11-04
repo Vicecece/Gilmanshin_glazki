@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gilmanshin_glazki"
         mc:Ignorable="d"
-        Title="Glazki-Save" Height="450" Width="800" FontFamily=" Century Gothic" Icon="Res/Глазки-save.ico">
+        Title="Glazki-Save" Height="450" Width="800" MinHeight="200" MinWidth="500" FontFamily=" Century Gothic" Icon="Res/Глазки-save.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="75"/>
