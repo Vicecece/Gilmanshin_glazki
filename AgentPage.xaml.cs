@@ -29,6 +29,92 @@ namespace Gilmanshin_glazki
             FilterCombo.SelectedIndex = 0;
 
         }
+        int CountRecords;
+        int CountPage;
+        int CurrentPage;
+
+        List<Agent> CurrentPageList = new List<Agent>();
+        List<Agent> TableList;
+        private void ChangePage(int direction, int? selectedPage)
+        {
+            CurrentPageList.Clear();
+            CountRecords = TableList.Count;
+            if (CountRecords % 10 > 0)
+            {
+                CountPage = CountRecords / 10 + 1;
+            }
+            else
+            {
+                CountPage = CountRecords / 10;
+            }
+            var ifUpdate = true;
+            int min;
+            if (selectedPage.HasValue)
+            {
+                if (selectedPage >= 0 && selectedPage <= CountPage)
+                {
+                    CurrentPage = (int)selectedPage;
+                    min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                    for (int i = CurrentPage * 10; i < min; i++)
+                    {
+                        CurrentPageList.Add(TableList[i]);
+                    }
+                }
+            }
+            else
+            {
+                switch (direction)
+                {
+                    case 1:
+                        if (CurrentPage > 0)
+                        {
+                            CurrentPage--;
+                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                            for (int i = CurrentPage * 10; i < min; i++)
+                            {
+                                CurrentPageList.Add(TableList[i]);
+                            }
+                        }
+                        else
+                        {
+                            ifUpdate = false;
+                        }
+                        break;
+                    case 2:
+                        if (CurrentPage < CountPage - 1)
+                        {
+                            CurrentPage++;
+                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                            for (int i = CurrentPage * 10; i < min; i++)
+                            {
+                                CurrentPageList.Add(TableList[i]);
+                            }
+                        }
+                        else
+                        {
+                            ifUpdate = false;
+                        }
+                        break;
+                }
+            }
+            if (ifUpdate)
+            {
+                PageListBox.Items.Clear();
+                for (int i = 1; i <= CountPage; i++)
+                {
+                    PageListBox.Items.Add(i);
+                }
+                PageListBox.SelectedIndex = CurrentPage;
+
+                min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                TBCount.Text = min.ToString();
+                TBAllRecords.Text = " из " + CountRecords.ToString();
+
+                AgentListView.ItemsSource = CurrentPageList;
+                AgentListView.Items.Refresh();
+            }
+        }
+
         private string PhoneFormat(string phone)
         {
             return phone.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
@@ -89,6 +175,8 @@ namespace Gilmanshin_glazki
             }
             AgentListView.ItemsSource = currentAgent;
 
+            TableList = currentAgent;
+            ChangePage(0, 0);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -119,6 +207,21 @@ namespace Gilmanshin_glazki
         private void TBoxSearch_TextChanged_1(object sender, TextChangedEventArgs e)
         {
             UpdateAgents();
+        }
+
+        private void LeftDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(1, null);
+        }
+
+        private void PageListBox_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString()) - 1);
+        }
+
+        private void RightDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(2, null);
         }
     }
 }
