@@ -29,6 +29,10 @@ namespace Gilmanshin_glazki
             FilterCombo.SelectedIndex = 0;
 
         }
+        private string PhoneFormat(string phone)
+        {
+            return phone.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
+        }
         private void UpdateAgents()
         {
             var currentAgent = Gilmanshin_GlazkiEntities.GetContext().Agent.ToList();
@@ -50,7 +54,10 @@ namespace Gilmanshin_glazki
                 currentAgent = currentAgent.OrderByDescending(p => p.Priority).ToList();
             }
 
-            currentAgent = currentAgent.Where(p => p.Phone.ToLower().Contains(TBoxSearch.Text.ToLower()) || p.Title.ToLower().Contains(TBoxSearch.Text.ToLower()) || p.Email.ToLower().Contains(TBoxSearch.Text)).ToList();
+
+            currentAgent = currentAgent.Where(p => PhoneFormat(p.Phone.ToLower()).Contains(TBoxSearch.Text.ToLower()) ||
+ p.Title.ToLower().Contains(TBoxSearch.Text.ToLower()) ||
+ p.Email.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
 
             if (FilterCombo.SelectedIndex == 0)
             {
