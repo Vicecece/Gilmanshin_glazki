@@ -20,13 +20,16 @@ namespace Gilmanshin_glazki
     /// </summary>
     public partial class AgentPage : Page
     {
+
         public AgentPage()
         {
+
             InitializeComponent();
             var currentAgents = Gilmanshin_GlazkiEntities.GetContext().Agent.ToList();
             AgentListView.ItemsSource = currentAgents;
             SortCombo.SelectedIndex = 0;
             FilterCombo.SelectedIndex = 0;
+            UpdateAgents();
 
         }
         int CountRecords;
@@ -179,10 +182,10 @@ namespace Gilmanshin_glazki
             ChangePage(0, 0);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.MainFrame.Navigate(new AddEditPage());
-        }
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Manager.MainFrame.Navigate(new AddEditPage());
+        //}
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -222,6 +225,26 @@ namespace Gilmanshin_glazki
         private void RightDirButton_Click(object sender, RoutedEventArgs e)
         {
             ChangePage(2, null);
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Agent));
+        }
+
+        private void dobavit_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Agent));
+        }
+        private void AgentPage_OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Gilmanshin_GlazkiEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                AgentListView.ItemsSource = Gilmanshin_GlazkiEntities.GetContext().Agent.ToList();
+            }
+
+            UpdateAgents();
         }
     }
 }
