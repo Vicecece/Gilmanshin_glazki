@@ -30,7 +30,9 @@ namespace Gilmanshin_glazki
             SortCombo.SelectedIndex = 0;
             FilterCombo.SelectedIndex = 0;
             UpdateAgents();
-
+            AgentListView.SelectedItems.Clear();
+            UpdateAgents();
+            EditButton.Visibility = Visibility.Hidden;
         }
         int CountRecords;
         int CountPage;
@@ -245,6 +247,37 @@ namespace Gilmanshin_glazki
             }
 
             UpdateAgents();
+        }
+
+        private void EditPriority_OnClick(object sender, RoutedEventArgs e)
+        {
+            var p = (AgentListView.SelectedItems.Cast<Agent>().Select(selectedItem => selectedItem.Priority)).Prepend(0).Max();
+            var window = new PriorityWindow(p);
+            window.ShowDialog();
+            if (string.IsNullOrEmpty(window.Priority.Text))
+            {
+                return;
+            }
+
+            foreach (Agent selectedItem in AgentListView.SelectedItems)
+            {
+                selectedItem.Priority = Convert.ToInt32(window.Priority.Text);
+            }
+
+            try
+            {
+                Gilmanshin_GlazkiEntities.GetContext().SaveChanges();
+                window.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            UpdateAgents();
+        }
+        private void AgentListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EditButton.Visibility = AgentListView.SelectedItems.Count > 1 ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }

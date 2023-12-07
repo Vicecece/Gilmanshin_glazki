@@ -12,6 +12,7 @@ namespace Gilmanshin_glazki
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Media;
 
     public partial class Agent
     {
@@ -36,6 +37,9 @@ namespace Gilmanshin_glazki
         public string INN { get; set; }
         public string KPP { get; set; }
 
+        public int Sale => SaleCalculator(SalesCount);
+        public decimal SalesCount => SalesCalculator();
+
         public int ProductCount => GetAllProducts();
         public int GetAllProducts()
         {
@@ -47,6 +51,66 @@ namespace Gilmanshin_glazki
             }
 
             return count;
+        }
+
+        public decimal SalesCalculator()
+        {
+            var productSale = Gilmanshin_GlazkiEntities.GetContext().ProductSale.Where(p => p.AgentID == ID).ToList();
+            var products = Gilmanshin_GlazkiEntities.GetContext().Product.ToList();
+            decimal sale = 0;
+            foreach (var product in products)
+            {
+                foreach (var item2 in productSale)
+                {
+                    if (product.ID == item2.ProductID)
+                    {
+                        sale += product.MinCostForAgent * item2.ProductCount;
+                    }
+                }
+            }
+
+            return sale;
+
+        }
+        public int SaleCalculator(decimal sale)
+        {
+            var percents = 0;
+            if (sale >= 0 && sale < 10000)
+            {
+                percents = 0;
+            }
+            if (sale >= 10000 && sale < 50000)
+            {
+                percents = 5;
+            }
+            if (sale >= 50000 && sale < 150000)
+            {
+                percents = 10;
+            }
+            if (sale >= 150000 && sale < 500000)
+            {
+                percents = 20;
+            }
+            if (sale >= 500000)
+            {
+                percents = 25;
+            }
+            return percents;
+        }
+
+        public SolidColorBrush FonStyle
+        {
+            get
+            {
+                if (Sale == 10)
+                {
+                    return (SolidColorBrush)new BrushConverter().ConvertFromString("LightGreen");
+                }
+                else
+                {
+                    return (SolidColorBrush)new BrushConverter().ConvertFromString("White");
+                }
+            }
         }
 
         public virtual AgentType AgentType { get; set; }
