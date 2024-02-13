@@ -31,6 +31,10 @@ namespace Gilmanshin_glazki
                 IsServiceExist = true;
                 currentAgent = SelectedAgent;
             }
+            else
+            {
+                SaleBtn.Visibility = Visibility.Hidden;
+            }
 
             DataContext = currentAgent;
         }
@@ -143,7 +147,12 @@ namespace Gilmanshin_glazki
                     }
                 }
             }
-        }    
+        }
+
+        private void SaleBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AgentSalePage(currentAgent));
+        }
     }
 }
 

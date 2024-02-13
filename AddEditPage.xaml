@@ -87,6 +87,7 @@
             <Button Content="Сохранить" Name="SaveBtn" Click="SaveBtn_Click" Margin="5"></Button>
             <Button Content="Удалить" Name="DeleteBtn" Click="DeleteBtn_Click" Margin="5"
                     Opacity="{Binding ID}"></Button>
+            <Button Content="Продажи" Name="SaleBtn" Click="SaleBtn_Click" Margin="5"></Button>
         </StackPanel>
     </Grid>
 </Page>

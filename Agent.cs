@@ -102,7 +102,7 @@ namespace Gilmanshin_glazki
         {
             get
             {
-                if (Sale == 10)
+                if (Sale == 25)
                 {
                     return (SolidColorBrush)new BrushConverter().ConvertFromString("LightGreen");
                 }

@@ -64,11 +64,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddSalesPage.xaml.cs">
+      <DependentUpon>AddSalesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Agent.cs">
       <DependentUpon>GilmanshinModel.tt</DependentUpon>
     </Compile>
     <Compile Include="AgentPriorityHistory.cs">
       <DependentUpon>GilmanshinModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AgentSalePage.xaml.cs">
+      <DependentUpon>AgentSalePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="AgentType.cs">
       <DependentUpon>GilmanshinModel.tt</DependentUpon>
@@ -108,6 +114,9 @@
     <Compile Include="ProductType.cs">
       <DependentUpon>GilmanshinModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SalesPage.xaml.cs">
+      <DependentUpon>SalesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shop.cs">
       <DependentUpon>GilmanshinModel.tt</DependentUpon>
     </Compile>
@@ -118,7 +127,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AddSalesPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AgentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AgentSalePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,6 +172,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PriorityWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SalesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
